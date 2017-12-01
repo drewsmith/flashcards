@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { gray, lightGray, lighterGray, white, lightBlue200, blueGray900, lightBlue800 } from '../utils/colors'
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import TextButton from './TextButton'
+import { NavigationActions } from 'react-navigation'
 
 const styles = StyleSheet.create({
   notFound: {
@@ -47,17 +48,23 @@ const styles = StyleSheet.create({
   }
 })
 
-const NoDecks = () => (
-  <View>
-    <View style={styles.card}>
-      <FontAwesome name='warning' size={24} color={lightBlue200} />
-      <Text style={styles.notFound}>0 decks found</Text>
+const NoDecks = (nav) => {
+  return (
+    <View>
+      <View style={styles.card}>
+        <FontAwesome name='warning' size={24} color={lightBlue200} />
+        <Text style={styles.notFound}>0 decks found</Text>
+      </View>
+      <TextButton style={styles.addCard} onPress={() => {
+        nav.navigation.dispatch(NavigationActions.navigate({
+          routeName: 'AddDeck'
+        }))
+      }}>
+        <Text>ADD DECK</Text>
+      </TextButton>
     </View>
-    <TextButton style={styles.addCard}>
-      <Text>ADD DECK</Text>
-    </TextButton>
-  </View>
-)
+  )
+}
 
 const DeckCard = ({deck = {}}) => (
   <View style={styles.card}>
@@ -68,13 +75,18 @@ const DeckCard = ({deck = {}}) => (
 
 const Wrapper = ({children}) => <View style={styles.container}>{children}</View>
 
-const DeckList = ({decks = []}) => (
-  <Wrapper>
-    {!decks || decks.length === 0
-      ? <NoDecks />
-      : decks.map((deck, index) => <DeckCard key={index} deck={deck} />)
-    }
-  </Wrapper>
-)
+class DeckList extends Component {
+  render() {
+    let { decks, navigation } = this.props
+    return (
+      <Wrapper>
+        {!decks || decks.length === 0
+          ? <NoDecks navigation={navigation} />
+          : decks.map((deck, index) => <DeckCard key={index} deck={deck} />)
+        }
+      </Wrapper>
+    )
+  }
+}
 
 export default DeckList

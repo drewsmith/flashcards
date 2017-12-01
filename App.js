@@ -3,7 +3,7 @@ import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
 
 import { View, StatusBar, Platform } from 'react-native'
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
@@ -15,38 +15,56 @@ const CardStatusBar = ({ backgroundColor, ...props }) => (
   </View>
 )
 
-const Tabs = TabNavigator({
+const defaultNavigationOptions = {
+  navigationOptions: {
+    headerTintColor: white,
+    headerStyle: {
+      backgroundColor: lightBlue800
+    }
+  }
+}
+
+const Hamburger = ({navigation}) => (
+  <MaterialCommunityIcons
+    name="menu"
+    size={20}
+    color={white}
+    style={{ marginRight: 10 }}
+    onPress={() => navigation.navigate('DrawerOpen')}
+  />
+)
+
+const DeckListStack = StackNavigator({
   DeckList: {
     screen: DeckList,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Decks',
+      headerRight: <Hamburger navigation={navigation} />
+    })
+  }
+}, defaultNavigationOptions);
+
+const AddDeckStack = StackNavigator({
+  AddDeck: {
+    screen: AddDeck,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Add Deck',
+      headerRight: <Hamburger navigation={navigation} />
+    })
+  }
+}, defaultNavigationOptions);
+
+const Root = DrawerNavigator({
+  DeckList: {
+    screen: DeckListStack,
     navigationOptions: {
-      tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) => (
-        <MaterialCommunityIcons name='cards' size={30} color={tintColor} />
-      )
+      title: 'Decks'
     }
   },
   AddDeck: {
-    screen: AddDeck,
+    screen: AddDeckStack,
     navigationOptions: {
-      tabBarLabel: 'Add Deck',
-      tabBarIcon: ({ tintColor }) => (
-        <SimpleLineIcons name='plus' size={30} color={tintColor} />
-      )
-    }
-  }
-}, {
-  tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? lightBlue800 : white,
-    style: {
-      height: 60,
-      backgroundColor: Platform.OS === 'ios' ? white : lightBlue800,
-      shadowColor: 'rgba(0, 0, 0, 0.24)',
-      shadowOffset: {
-        width: 0,
-        height: 3
-      },
-      shadowRadius: 6,
-      shadowOpacity: 1
+      title: 'Add Deck'
     }
   }
 })
@@ -56,7 +74,7 @@ export default class App extends React.Component {
     return (
       <View style={{flex: 1}}>
         <CardStatusBar backgroundColor={lightBlue800} barStyle='light-content' />
-        <Tabs />
+        <Root />
       </View>
     );
   }
