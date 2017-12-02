@@ -40,6 +40,16 @@ const Hamburger = ({navigation}) => (
   />
 )
 
+const Settings = ({navigation}) => (
+  <MaterialCommunityIcons
+    name="settings"
+    size={20}
+    color={white}
+    style={{ marginRight: 10 }}
+    onPress={() => navigation.navigate('DrawerOpen')}
+  />
+)
+
 const DeckListStack = StackNavigator({
   DeckList: {
     screen: DeckList,
@@ -49,7 +59,14 @@ const DeckListStack = StackNavigator({
     })
   },
   DeckView: {
-    screen: DeckView
+    screen: DeckView,
+    navigationOptions: ({ navigation }) => {
+      const { deck } = navigation.state.params
+      return {
+        title: deck.title,
+        headerRight: <Settings navigation={navigation} />
+      }
+    }
   }
 }, defaultNavigationOptions);
 

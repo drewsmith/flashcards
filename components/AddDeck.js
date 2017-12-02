@@ -11,20 +11,9 @@ import { bindActionCreators } from 'redux'
 
 import uuid from 'uuid'
 
+import { deckStyles } from './common'
+
 const styles = StyleSheet.create({
-  addButton: {
-    backgroundColor: lightBlue800,
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 2,
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, .24)',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    }
-  },
   label: {
     fontSize: 12,
     color: gray,
@@ -67,7 +56,7 @@ class AddDeck extends Component {
           onChangeText={(title) => this.setState({title})}
           value={title}
         />
-        <TextButton style={styles.addButton} onPress={this.handleAdd}>
+        <TextButton style={deckStyles.blueButton} onPress={this.handleAdd}>
           <Text>CREATE DECK</Text>
         </TextButton>
       </View>

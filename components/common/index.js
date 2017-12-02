@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
-import { lighterGray, white, gray, lightGray } from '../../utils/colors'
+import { lighterGray, white, gray, lightGray, lightBlue800 } from '../../utils/colors'
 
 export const deckStyles = StyleSheet.create({
   container: {
@@ -31,6 +31,11 @@ export const deckStyles = StyleSheet.create({
   cardCount: {
     fontSize: 16,
     color: lightGray
+  },
+  blueButton: {
+    backgroundColor: lightBlue800,
+    padding: 10,
+    borderRadius: 7
   }
 })
 
