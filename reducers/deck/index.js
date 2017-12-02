@@ -10,7 +10,7 @@ const deck = (
     case actions.ADD_DECK:
       return {
         ...state,
-        decks: state.decks.concat(action.deck),
+        decks: state.decks.concat(action.deck)
       }
     default:
       return state

@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import { bindActionCreators } from 'redux'
 
+import uuid from 'uuid'
+
 const styles = StyleSheet.create({
   addButton: {
     backgroundColor: lightBlue800,
@@ -49,7 +51,9 @@ class AddDeck extends Component {
   handleAdd = () => {
     let { addDeck, navigation } = this.props
     addDeck({
-      title: this.state.title
+      id: uuid.v1(),
+      title: this.state.title,
+      cards: []
     })
     navigation.goBack()
   }

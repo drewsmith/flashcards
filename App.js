@@ -1,6 +1,7 @@
 import React from 'react'
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
+import DeckView from './components/DeckView'
 
 import { View, StatusBar, Platform } from 'react-native'
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
@@ -46,6 +47,9 @@ const DeckListStack = StackNavigator({
       title: 'Decks',
       headerRight: <Hamburger navigation={navigation} />
     })
+  },
+  DeckView: {
+    screen: DeckView
   }
 }, defaultNavigationOptions);
 
