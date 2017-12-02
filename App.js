@@ -6,6 +6,11 @@ import { View, StatusBar, Platform } from 'react-native'
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
+import thunk from 'redux-thunk'
+
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
 import { lightBlue800, white } from './utils/colors'
 
@@ -69,13 +74,20 @@ const Root = DrawerNavigator({
   }
 })
 
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk)
+)
+
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{flex: 1}}>
-        <CardStatusBar backgroundColor={lightBlue800} barStyle='light-content' />
-        <Root />
-      </View>
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <CardStatusBar backgroundColor={lightBlue800} barStyle='light-content' />
+          <Root />
+        </View>
+      </Provider>
     );
   }
 }

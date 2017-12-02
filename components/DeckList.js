@@ -5,6 +5,8 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import TextButton from './TextButton'
 import { NavigationActions } from 'react-navigation'
 
+import { connect } from 'react-redux'
+
 const styles = StyleSheet.create({
   notFound: {
     fontSize: 20,
@@ -66,12 +68,15 @@ const NoDecks = (nav) => {
   )
 }
 
-const DeckCard = ({deck = {}}) => (
-  <View style={styles.card}>
-    <Text style={{ fontSize: 24, color: gray }}>{deck.name}</Text>
-    <Text style={{ fontSize: 16, color: lightGray }}>{deck.total} cards</Text>
-  </View>
-)
+const DeckCard = ({deck = {}}) => {
+  let { title = '', total = 0 } = deck
+  return (
+    <View style={styles.card}>
+      <Text style={{ fontSize: 24, color: gray }}>{title}</Text>
+      <Text style={{ fontSize: 16, color: lightGray }}>{total} cards</Text>
+    </View>
+  )
+}
 
 const Wrapper = ({children}) => <View style={styles.container}>{children}</View>
 
@@ -89,4 +94,8 @@ class DeckList extends Component {
   }
 }
 
-export default DeckList
+export default connect(
+  (state) => ({
+    decks: state.deck.decks
+  })
+)(DeckList)
