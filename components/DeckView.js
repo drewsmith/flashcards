@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { deckStyles } from './styles'
+import { ContainerView, deckStyles } from './common'
 
 export default class DeckView extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -12,9 +12,9 @@ export default class DeckView extends Component {
   render() {
     let { deck } = this.props.navigation.state.params
     return (
-      <View style={deckStyles.container}>
-        <Text>{deck.title}</Text>
-      </View>
+      <ContainerView>
+        <Text style={deckStyles.deckTitle}>{deck.title}</Text>
+      </ContainerView>
     )
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 
-import { deckStyles } from './styles'
+import { deckStyles, ContainerView } from './common'
 import { gray, lightGray, lighterGray, white, lightBlue200, blueGray900, lightBlue800 } from '../utils/colors'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -29,14 +29,6 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3
     }
-  },
-  deckTitle: {
-    fontSize: 24,
-    color: gray
-  },
-  cardCount: {
-    fontSize: 16,
-    color: lightGray
   }
 })
 
@@ -62,27 +54,24 @@ const DeckCard = ({deck = {}, onPress}) => {
   let { title = '', cards = [] } = deck
   return (
     <TouchableOpacity style={deckStyles.card} onPress={onPress}>
-      <Text style={styles.deckTitle}>{title}</Text>
-      <Text style={styles.cardCount}>{cards.length} cards</Text>
+      <Text style={deckStyles.deckTitle}>{title}</Text>
+      <Text style={deckStyles.cardCount}>{cards.length} cards</Text>
     </TouchableOpacity>
   )
 }
 
-const Wrapper = ({children}) => <ScrollView contentContainerStyle={deckStyles.container}>{children}</ScrollView>
-
 class DeckList extends Component {
   viewDeck = deck => {
     let { navigation } = this.props
-    console.log(navigation)
-    navigation.navigate(NavigationActions.navigate(
+    this.props.navigation.navigate(
       'DeckView',
       { deck: deck }
-    ))
+    )
   }
   render() {
     let { decks, navigation } = this.props
     return (
-      <Wrapper>
+      <ContainerView>
         {!decks || decks.length === 0
           ? <NoDecks navigation={navigation} />
           : decks.map((deck, index) => (
@@ -93,7 +82,7 @@ class DeckList extends Component {
             />
           ))
         }
-      </Wrapper>
+      </ContainerView>
     )
   }
 }

@@ -55,7 +55,7 @@ class AddDeck extends Component {
       title: this.state.title,
       cards: []
     })
-    navigation.goBack()
+    navigation.navigate('DeckList')
   }
   render() {
     let { title } = this.state

@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native'
-import { lighterGray, white } from '../../utils/colors'
+import React from 'react'
+import { StyleSheet, ScrollView } from 'react-native'
+import { lighterGray, white, gray, lightGray } from '../../utils/colors'
 
 export const deckStyles = StyleSheet.create({
   container: {
@@ -22,5 +23,19 @@ export const deckStyles = StyleSheet.create({
       width: 0,
       height: 3
     }
+  },
+  deckTitle: {
+    fontSize: 24,
+    color: gray
+  },
+  cardCount: {
+    fontSize: 16,
+    color: lightGray
   }
 })
+
+export const ContainerView = ({children}) => (
+  <ScrollView contentContainerStyle={deckStyles.container}>
+    {children}
+  </ScrollView>
+)
