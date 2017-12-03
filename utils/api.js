@@ -10,19 +10,21 @@ export const addDeck = deck => {
 }
 
 export const addCard = (deckId, card) => {
-  let data = AsyncStorage.getItem(STORAGE_KEY)
-
-  let deck = data.filter(deck => deck.id === deckId)
+  let deck = getDeck(deckId)
+  if(!deck) {
+    return
+  }
+  
   if(!deck.cards) {
     deck.cards = []
   }
 
   deck.cards.push(card)
 
-  AsyncStorage.setItem(STORAGE_KEY, {
+  AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({
     ...data,
     [deck.id]: deck
-  })
+  }))
 }
 
 export const getDecks = () => {
