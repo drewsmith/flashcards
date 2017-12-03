@@ -1,6 +1,21 @@
 import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
-import { lighterGray, white, gray, lightGray, lightBlue800 } from '../../utils/colors'
+
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  TextInput
+} from 'react-native'
+
+import {
+  lighterGray,
+  white,
+  gray,
+  lightGray,
+  lightBlue800,
+  blueGray900
+} from '../../utils/colors'
 
 export const deckStyles = StyleSheet.create({
   container: {
@@ -35,12 +50,54 @@ export const deckStyles = StyleSheet.create({
   blueButton: {
     backgroundColor: lightBlue800,
     padding: 10,
-    borderRadius: 7
+    borderRadius: 10
+  },
+  reset: {
+    textAlign: 'center',
+    color: white
+  },
+  label: {
+    fontSize: 12,
+    color: gray,
+    marginBottom: 5
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: lighterGray,
+    height: 40,
+    paddingLeft: 5,
+    color: blueGray900,
+    backgroundColor: white,
+    marginBottom: 10
   }
 })
+
+export const Label = ({children}) => (
+  <Text style={deckStyles.label}>
+    {children}
+  </Text>
+)
+
+export const Input = ({value, onChange}) => (
+  <TextInput
+    style={deckStyles.input}
+    onChangeText={(value) => onChange(value)}
+    value={value}
+  />
+)
 
 export const ContainerView = ({children}) => (
   <ScrollView contentContainerStyle={deckStyles.container}>
     {children}
   </ScrollView>
+)
+
+export const TextButton = ({text, onPress, style = ''}) => (
+  <TouchableOpacity onPress={onPress} style={style}>
+    <Text style={deckStyles.reset}>{text}</Text>
+  </TouchableOpacity>
+)
+
+export const BlueButton = (props) => (
+  <TextButton {...props} style={deckStyles.blueButton} />
 )

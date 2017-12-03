@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-import { deckStyles, ContainerView } from './common'
-import { gray, lightGray, lighterGray, white, lightBlue200, blueGray900, lightBlue800 } from '../utils/colors'
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
-
-import TextButton from './TextButton'
-import { NavigationActions } from 'react-navigation'
+import { deckStyles, ContainerView, BlueButton } from './common'
+import { blueGray900, lightBlue200 } from '../utils/colors'
+import { FontAwesome } from '@expo/vector-icons'
 
 import { connect } from 'react-redux'
 
@@ -16,36 +13,16 @@ const styles = StyleSheet.create({
     color: blueGray900,
     fontWeight: '600',
     marginTop: 10
-  },
-  addCard: {
-    backgroundColor: lightBlue800,
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 2,
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, .24)',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    }
   }
 })
 
-const NoDecks = (nav) => {
+const NoDecks = () => {
   return (
     <View>
       <View style={deckStyles.card}>
         <FontAwesome name='warning' size={24} color={lightBlue200} />
         <Text style={styles.notFound}>0 decks found</Text>
       </View>
-      <TextButton style={styles.addCard} onPress={() => {
-        nav.navigation.dispatch(NavigationActions.navigate({
-          routeName: 'AddDeck'
-        }))
-      }}>
-        <Text>ADD DECK</Text>
-      </TextButton>
     </View>
   )
 }
@@ -68,12 +45,16 @@ class DeckList extends Component {
       { deck: deck }
     )
   }
+  viewAddDeck = () => {
+    let { navigation } = this.props
+    navigation.navigate('AddDeck')
+  }
   render() {
     let { decks, navigation } = this.props
     return (
       <ContainerView>
         {!decks || decks.length === 0
-          ? <NoDecks navigation={navigation} />
+          ? <NoDecks />
           : decks.map((deck, index) => (
             <DeckCard
               key={deck.id}
@@ -82,6 +63,10 @@ class DeckList extends Component {
             />
           ))
         }
+        <BlueButton
+          text='ADD DECK'
+          onPress={this.viewAddDeck}
+        />
       </ContainerView>
     )
   }

@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 import { ContainerView, deckStyles } from './common'
-import TextButton from './TextButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { white } from '../utils/colors'
+import { white, lightBlue800 } from '../utils/colors'
 
 export default class DeckView extends Component {
+  goToAddCard = () => {
+    let { navigation } = this.props
+    let { deck } = navigation.state.params
+    navigation.navigate(
+      'AddCard',
+      { deckId: deck.id }
+    )
+  }
   render() {
     let { deck } = this.props.navigation.state.params
     return (
@@ -15,10 +22,24 @@ export default class DeckView extends Component {
             flex: 1,
             justifyContent: 'flex-start'
           }]}>{deck.title}</Text>
-          <TextButton style={deckStyles.blueButton}>
-            <MaterialCommunityIcons name="plus" size={14} color={white} />
-            Add Card
-          </TextButton>
+          <TouchableOpacity
+            onPress={this.goToAddCard}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <MaterialCommunityIcons
+              name="plus"
+              size={18}
+              color={lightBlue800}
+            />
+            <Text style={{
+              color: lightBlue800,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>Card</Text>
+          </TouchableOpacity>
         </View>
       </ContainerView>
     )

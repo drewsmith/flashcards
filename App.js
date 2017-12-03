@@ -2,6 +2,7 @@ import React from 'react'
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
 import DeckView from './components/DeckView'
+import AddCard from './components/AddCard'
 
 import { View, StatusBar, Platform } from 'react-native'
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
@@ -40,16 +41,6 @@ const Hamburger = ({navigation}) => (
   />
 )
 
-const Settings = ({navigation}) => (
-  <MaterialCommunityIcons
-    name="settings"
-    size={20}
-    color={white}
-    style={{ marginRight: 10 }}
-    onPress={() => navigation.navigate('DrawerOpen')}
-  />
-)
-
 const DeckListStack = StackNavigator({
   DeckList: {
     screen: DeckList,
@@ -63,10 +54,15 @@ const DeckListStack = StackNavigator({
     navigationOptions: ({ navigation }) => {
       const { deck } = navigation.state.params
       return {
-        title: deck.title,
-        headerRight: <Settings navigation={navigation} />
+        title: deck.title
       }
     }
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Add Card'
+    })
   }
 }, defaultNavigationOptions);
 

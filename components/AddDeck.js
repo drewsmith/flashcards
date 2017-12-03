@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text } from 'react-native'
 import { lightBlue800, gray, lighterGray, white, blueGray900 } from '../utils/colors'
-import TextButton from './TextButton'
 
 import { NavigationActions } from 'react-navigation'
 
@@ -11,27 +10,7 @@ import { bindActionCreators } from 'redux'
 
 import uuid from 'uuid'
 
-import { deckStyles } from './common'
-
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 12,
-    color: gray,
-    marginBottom: 5
-  },
-  title: {
-    borderWidth: 1,
-    borderColor: lighterGray,
-    height: 40,
-    paddingLeft: 5,
-    color: blueGray900,
-    backgroundColor: white,
-    marginBottom: 10
-  },
-  container: {
-    padding: 20
-  }
-})
+import { deckStyles, BlueButton, Label, Input, ContainerView } from './common'
 
 class AddDeck extends Component {
   state = {
@@ -49,17 +28,17 @@ class AddDeck extends Component {
   render() {
     let { title } = this.state
     return (
-      <View style={styles.container}>
-        <Text style={styles.label}>TITLE</Text>
-        <TextInput
-          style={styles.title}
-          onChangeText={(title) => this.setState({title})}
+      <ContainerView>
+        <Label>TITLE</Label>
+        <Input
           value={title}
+          onChange={(value) => this.setState({title: value})}
         />
-        <TextButton style={deckStyles.blueButton} onPress={this.handleAdd}>
-          <Text>CREATE DECK</Text>
-        </TextButton>
-      </View>
+        <BlueButton
+          onPress={this.handleAdd}
+          text='CREATE DECK'
+        />
+      </ContainerView>
     )
   }
 }
