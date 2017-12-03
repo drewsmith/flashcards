@@ -20,6 +20,11 @@ const deck = (
           ...decks
         ]
       }
+    case actions.RECEIVE_DECKS:
+      return {
+        ...state,
+        decks: action.decks
+      }
     default:
       return state
   }

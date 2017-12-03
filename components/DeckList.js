@@ -6,6 +6,8 @@ import { blueGray900, lightBlue200 } from '../utils/colors'
 import { FontAwesome } from '@expo/vector-icons'
 
 import { connect } from 'react-redux'
+import * as actions from '../actions'
+import { bindActionCreators } from 'redux'
 
 const styles = StyleSheet.create({
   notFound: {
@@ -49,19 +51,26 @@ class DeckList extends Component {
     let { navigation } = this.props
     navigation.navigate('AddDeck')
   }
+  componentDidMount() {
+    let { fetchDecks } = this.props
+    fetchDecks()
+  }
   render() {
     let { decks, navigation } = this.props
     return (
       <ContainerView>
         {!decks || decks.length === 0
           ? <NoDecks />
-          : decks.map((deck, index) => (
-            <DeckCard
-              key={deck.id}
-              deck={deck}
-              onPress={() => this.viewDeck(deck)}
-            />
-          ))
+          : Object.keys(decks).map(key => {
+            let deck = decks[key]
+            return (
+              <DeckCard
+                key={deck.id}
+                deck={deck}
+                onPress={() => this.viewDeck(deck)}
+              />
+            )
+          })
         }
         <BlueButton
           text='ADD DECK'
@@ -75,5 +84,6 @@ class DeckList extends Component {
 export default connect(
   (state) => ({
     decks: state.deck.decks
-  })
+  }),
+  (dispatch) => bindActionCreators(actions, dispatch)
 )(DeckList)

@@ -22,8 +22,9 @@ class AddDeck extends Component {
       id: uuid.v1(),
       title: this.state.title,
       cards: []
+    }).then(() => {
+      navigation.navigate('DeckList')
     })
-    navigation.navigate('DeckList')
   }
   render() {
     let { title } = this.state
