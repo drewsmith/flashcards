@@ -10,7 +10,7 @@ import {
 
 import { ContainerView, deckStyles } from './common'
 import { SimpleLineIcons } from '@expo/vector-icons'
-import { white, lightBlue800, lightBlue200 } from '../utils/colors'
+import { white, lightBlue800, lightBlue200, lightGray } from '../utils/colors'
 
 import CardView from './CardView'
 
