@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
 import DeckView from './components/DeckView'
@@ -14,7 +14,7 @@ import reducer from './reducers'
 import thunk from 'redux-thunk'
 
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
-import { lightBlue800, white } from './utils/colors'
+import { lightBlue800, lightBlue200, white } from './utils/colors'
 
 const CardStatusBar = ({ backgroundColor, ...props }) => (
   <View style={{backgroundColor, height: Constants.statusBarHeight}}>
@@ -36,7 +36,7 @@ const Hamburger = ({navigation}) => (
     name="menu"
     size={20}
     color={white}
-    style={{ marginRight: 10 }}
+    style={{ marginLeft: 10 }}
     onPress={() => navigation.navigate('DrawerOpen')}
   />
 )
@@ -46,15 +46,15 @@ const DeckListStack = StackNavigator({
     screen: DeckList,
     navigationOptions: ({ navigation }) => ({
       title: 'Decks',
-      headerRight: <Hamburger navigation={navigation} />
+      headerLeft: <Hamburger navigation={navigation} />
     })
   },
   DeckView: {
     screen: DeckView,
     navigationOptions: ({ navigation }) => {
-      const { deck } = navigation.state.params
+      const { title } = navigation.state.params
       return {
-        title: deck.title
+        title
       }
     }
   },
@@ -71,7 +71,7 @@ const AddDeckStack = StackNavigator({
     screen: AddDeck,
     navigationOptions: ({ navigation }) => ({
       title: 'Add Deck',
-      headerRight: <Hamburger navigation={navigation} />
+      headerLeft: <Hamburger navigation={navigation} />
     })
   }
 }, defaultNavigationOptions);
@@ -80,14 +80,33 @@ const Root = DrawerNavigator({
   DeckList: {
     screen: DeckListStack,
     navigationOptions: {
-      title: 'Decks'
+      drawerLabel: 'Decks',
+      drawerIcon: ({ tintColor }) => (
+        <MaterialCommunityIcons
+          name='cards'
+          size={24}
+          color={lightBlue200}
+        />
+      )
     }
   },
   AddDeck: {
     screen: AddDeckStack,
     navigationOptions: {
-      title: 'Add Deck'
+      drawerLabel: 'Add Deck',
+      drawerIcon: ({ tintColor }) => (
+        <SimpleLineIcons
+          name='plus'
+          size={24}
+          color={lightBlue200}
+        />
+      )
     }
+  }
+},{
+  contentOptions: {
+    activeTintColor: white,
+    activeBackgroundColor: lightBlue800
   }
 })
 
@@ -96,7 +115,7 @@ const store = createStore(
   applyMiddleware(thunk)
 )
 
-export default class App extends React.Component {
+export default class App extends Component {
   render() {
     return (
       <Provider store={store}>

@@ -10,26 +10,43 @@ import { bindActionCreators } from 'redux'
 
 import uuid from 'uuid'
 
-import { deckStyles, BlueButton, Label, Input, ContainerView } from './common'
+import {
+  deckStyles,
+  BlueButton,
+  Label,
+  Input,
+  ContainerView,
+  ErrorView
+} from './common'
 
 class AddDeck extends Component {
   state = {
-    title: ''
+    title: '',
+    error: false
+  }
+  valid = () => {
+    let { title } = this.state
+    return title && title.length > 0
   }
   handleAdd = () => {
-    let { addDeck, navigation } = this.props
+    let { addDeck, viewDeckList } = this.props
+    if(!this.valid()) {
+      this.setState({error: true})
+      return
+    }
     addDeck({
       id: uuid.v1(),
       title: this.state.title,
       cards: []
-    }).then(() => {
-      navigation.navigate('DeckList')
     })
+    .then(() => this.setState({error: false}))
+    .then(viewDeckList)
   }
   render() {
-    let { title } = this.state
+    let { title, error } = this.state
     return (
       <ContainerView>
+        {error && <ErrorView />}
         <Label>TITLE</Label>
         <Input
           value={title}
@@ -45,6 +62,8 @@ class AddDeck extends Component {
 }
 
 export default connect(
-  () => ({}),
+  (state, {navigation}) => ({
+    viewDeckList: () => navigation.navigate('DeckList')
+  }),
   (dispatch) => bindActionCreators(actions, dispatch)
 )(AddDeck)

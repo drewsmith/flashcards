@@ -8,6 +8,12 @@ export const fetchDecks = () => {
   }
 }
 
+export const fetchDeck = id => {
+  return dispatch => {
+    return api.getDeck(id)
+  }
+}
+
 export const receiveDecks = (decks) => ({
   type: actions.RECEIVE_DECKS,
   decks
@@ -16,11 +22,6 @@ export const receiveDecks = (decks) => ({
 export const addDeck = deck => {
   return dispatch => {
     return api.addDeck(deck)
+      .then(() => dispatch(fetchDecks()))
   }
 }
-
-export const addCard = (card, deckId) => ({
-  type: actions.ADD_CARD,
-  deckId,
-  card
-})

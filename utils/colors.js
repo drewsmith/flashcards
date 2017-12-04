@@ -7,3 +7,5 @@ export const blueGray900 = '#263238'
 
 export const lightBlue200 = '#81D4FA'
 export const lightBlue800 = '#0277BD'
+
+export const darkRed = '#C11111'

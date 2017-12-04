@@ -40,23 +40,12 @@ const DeckCard = ({deck = {}, onPress}) => {
 }
 
 class DeckList extends Component {
-  viewDeck = deck => {
-    let { navigation } = this.props
-    this.props.navigation.navigate(
-      'DeckView',
-      { deck: deck }
-    )
-  }
-  viewAddDeck = () => {
-    let { navigation } = this.props
-    navigation.navigate('AddDeck')
-  }
   componentDidMount() {
     let { fetchDecks } = this.props
     fetchDecks()
   }
   render() {
-    let { decks, navigation } = this.props
+    let { decks, navigation, viewAddDeck, viewDeck } = this.props
     return (
       <ContainerView>
         {!decks || decks.length === 0
@@ -67,14 +56,14 @@ class DeckList extends Component {
               <DeckCard
                 key={deck.id}
                 deck={deck}
-                onPress={() => this.viewDeck(deck)}
+                onPress={() => viewDeck(deck)}
               />
             )
           })
         }
         <BlueButton
           text='ADD DECK'
-          onPress={this.viewAddDeck}
+          onPress={viewAddDeck}
         />
       </ContainerView>
     )
@@ -82,8 +71,12 @@ class DeckList extends Component {
 }
 
 export default connect(
-  (state) => ({
-    decks: state.deck.decks
+  (state, { navigation }) => ({
+    decks: state.deck.decks,
+    viewAddDeck: () => navigation.navigate('AddDeck'),
+    viewDeck: (deck) => {
+      navigation.navigate('DeckView', { deckId: deck.id, title: deck.title })
+    }
   }),
   (dispatch) => bindActionCreators(actions, dispatch)
 )(DeckList)
