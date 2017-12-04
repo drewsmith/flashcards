@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+
 import { deckStyles, ContainerView } from './common'
-import { lightGray, white, red900, lightGreen700, lightBlue800 } from '../utils/colors'
+import { lightGray, white, red900, lightGreen700, lightBlue800, blueGray900 } from '../utils/colors'
+
+import { setNotification, clearNotifications } from '../utils/notifications'
+
 import CardView from './CardView'
 
 import { connect } from 'react-redux'
@@ -9,9 +13,11 @@ import { connect } from 'react-redux'
 const styles = StyleSheet.create({
   counts: {
     fontSize: 16,
-    color: lightGray
+    color: lightGray,
+    textAlign: 'center',
+    marginBottom: 10
   },
-  countContainer: {
+  container: {
     marginBottom: 20,
     alignItems: 'center'
   },
@@ -34,8 +40,11 @@ const styles = StyleSheet.create({
     backgroundColor: red900
   },
   retryButton: {
+    backgroundColor: blueGray900,
+    marginTop: 10
+  },
+  viewDeckButton: {
     backgroundColor: lightBlue800,
-    padding: 10,
     marginTop: 10
   },
   buttonText: {
@@ -76,36 +85,38 @@ class QuizView extends Component {
 
   handleAnswer = numberCorrect => {
     let complete = this.isComplete()
+
+    if(complete) {
+      clearNotifications().then(setNotification)
+    }
+
     this.setState((state) => ({
       numberCorrect,
       complete,
       currentCardIndex: complete ? state.currentCardIndex : state.currentCardIndex + 1
     }))
   }
-  
+
   render() {
     let { currentCardIndex, complete, numberCorrect } = this.state
-    let { cards, cardTotal } = this.props
+    let { cards, cardTotal, goBack } = this.props
 
     let cardNumber = cardTotal > 0 ? currentCardIndex + 1 : 0
 
     return (
       <ContainerView>
-        <View style={styles.countContainer}>
-          <Text style={styles.counts}>{`${cardNumber} of ${cardTotal}`}</Text>
-        </View>
-
-        {cards && cardTotal > 0 && <CardView card={cards[currentCardIndex]} />}
-
         {complete === false ? (
           <View>
+            <Text style={styles.counts}>{`${cardNumber} of ${cardTotal}`}</Text>
+            <CardView card={cards[currentCardIndex]} />
             <Button text='CORRECT' buttonStyle={styles.correctButton} onPress={this.handleCorrect} />
             <Button text='INCORRECT' buttonStyle={styles.incorrectButton} onPress={this.handleIncorrect} />
           </View>
         ) : (
-          <View style={styles.scoreContainer}>
-            <Text style={styles.counts}>Total Correct: {numberCorrect}</Text>
-            <Button text='RETRY' buttonStyle={styles.retryButton} onPress={this.reset} />
+          <View>
+            <Text style={styles.counts}>Total Correct: {`${numberCorrect} of ${cardTotal}`}</Text>
+            <Button text='RETRY QUIZ' buttonStyle={styles.retryButton} onPress={this.reset} />
+            <Button text='VIEW DECK' buttonStyle={styles.viewDeckButton} onPress={goBack} />
           </View>
         )}
       </ContainerView>
@@ -119,7 +130,8 @@ export default connect(
     let { cards } = deck
     return {
       cards: cards,
-      cardTotal: cards.length
+      cardTotal: cards.length,
+      goBack: () => navigation.goBack()
     }
   }
 )(QuizView)

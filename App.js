@@ -17,6 +17,8 @@ import thunk from 'redux-thunk'
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
 import { lightBlue800, lightBlue200, white } from './utils/colors'
 
+import { setNotification } from './utils/notifications'
+
 const CardStatusBar = ({ backgroundColor, ...props }) => (
   <View style={{backgroundColor, height: Constants.statusBarHeight}}>
     <StatusBar translucent backgroundColor={backgroundColor} {...props} />
@@ -126,6 +128,9 @@ const store = createStore(
 )
 
 export default class App extends Component {
+  componentDidMount() {
+    setNotification()
+  }
   render() {
     return (
       <Provider store={store}>
