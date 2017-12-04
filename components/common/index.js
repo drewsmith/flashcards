@@ -19,6 +19,16 @@ import {
   darkRed
 } from '../../utils/colors'
 
+const shadow = {
+  shadowRadius: 3,
+  shadowOpacity: 0.8,
+  shadowColor: 'rgba(0, 0, 0, .24)',
+  shadowOffset: {
+    width: 0,
+    height: 3
+  }
+}
+
 export const deckStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -27,21 +37,15 @@ export const deckStyles = StyleSheet.create({
     backgroundColor: lighterGray,
     marginBottom: 10
   },
-  card: {
+  shadow: shadow,
+  card: Object.assign({
     alignItems: 'center',
     backgroundColor: white,
     marginBottom: 20,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 8,
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, .24)',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    }
-  },
+    borderRadius: 8
+  }, shadow),
   deckTitle: {
     fontSize: 24,
     color: gray
@@ -50,18 +54,11 @@ export const deckStyles = StyleSheet.create({
     fontSize: 16,
     color: lightGray
   },
-  blueButton: {
+  blueButton: Object.assign({
     backgroundColor: lightBlue800,
     padding: 10,
-    borderRadius: 3,
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, .24)',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    }
-  },
+    borderRadius: 3
+  }, shadow),
   reset: {
     textAlign: 'center',
     color: white
@@ -71,20 +68,13 @@ export const deckStyles = StyleSheet.create({
     color: gray,
     marginBottom: 5
   },
-  input: {
+  input: Object.assign({
     height: 40,
     paddingLeft: 5,
     color: blueGray900,
     backgroundColor: white,
-    marginBottom: 20,
-    shadowRadius: 3,
-    shadowOpacity: 0.8,
-    shadowColor: 'rgba(0, 0, 0, .15)',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    }
-  },
+    marginBottom: 20
+  }, shadow),
   error: {
     marginBottom: 20,
     padding: 10,
