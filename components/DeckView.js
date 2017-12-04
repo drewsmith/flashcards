@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const DeckView = ({deckId, deck = {}, viewAddCard}) => (
+const DeckView = ({deckId, deck = {}, viewAddCard, viewQuiz}) => (
   <ContainerView>
     <View style={styles.buttonContainer}>
       <TouchableOpacity
@@ -68,7 +68,7 @@ const DeckView = ({deckId, deck = {}, viewAddCard}) => (
         <Text style={styles.buttonText}>ADD CARD</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={viewQuiz}
         style={[
           styles.button,
           styles.right,
@@ -105,10 +105,12 @@ const DeckView = ({deckId, deck = {}, viewAddCard}) => (
 export default connect(
   (state, { navigation }) => {
     let { deckId } = navigation.state.params
+    let deck = state.deck.decks[deckId]
     return {
       deckId,
-      deck: state.deck.decks[deckId],
-      viewAddCard: () => navigation.navigate('AddCard', { deckId })
+      deck,
+      viewAddCard: () => navigation.navigate('AddCard', { deckId }),
+      viewQuiz: () => navigation.navigate('QuizView', { deck, title: deck.title })
     }
   }
 )(DeckView)

@@ -3,6 +3,7 @@ import DeckList from './components/DeckList'
 import AddDeck from './components/AddDeck'
 import DeckView from './components/DeckView'
 import AddCard from './components/AddCard'
+import QuizView from './components/QuizView'
 
 import { View, StatusBar, Platform } from 'react-native'
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
@@ -63,6 +64,15 @@ const DeckListStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: 'Add Card'
     })
+  },
+  QuizView: {
+    screen: QuizView,
+    navigationOptions: ({ navigation }) => {
+      const { title } = navigation.state.params
+      return {
+        title
+      }
+    }
   }
 }, defaultNavigationOptions);
 

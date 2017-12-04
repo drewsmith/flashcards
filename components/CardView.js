@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Animated, Text, StyleSheet } from 'react-native'
 import { deckStyles } from './common'
-import { lightGray } from '../utils/colors'
+import { lightGray, lightGreen200, lightGreen700, gray, white } from '../utils/colors'
 
 const styles = StyleSheet.create({
   header: {
     fontSize: 12,
-    color: lightGray,
     marginBottom: 5
   }
 })
@@ -20,6 +19,9 @@ class CardView extends Component {
     activeSide: FRONT,
     bounceValue: new Animated.Value(1),
   }
+
+  componentWillReceiveProps = (nextProps) => this.setState({ activeSide: FRONT })
+
   toggleSide = () => {
     let { bounceValue } = this.state
 
@@ -32,24 +34,33 @@ class CardView extends Component {
       Animated.spring(bounceValue, {toValue: 1, friction: 4})
     ]).start()
   }
+
   render() {
     let { activeSide, bounceValue } = this.state
     let { card } = this.props
     let front = isFront(activeSide)
     return (
       <TouchableOpacity
+        key={card.id}
         onPress={this.toggleSide}
-        style={deckStyles.card}>
-        <Text style={styles.header}>
+        style={[
+          deckStyles.card,
+          { backgroundColor: front ? white : lightGreen200 }
+        ]}>
+        <Text style={[
+          styles.header,
+          { color: front ? lightGray : lightGreen700 }
+        ]}>
           {front ? 'QUESTION' : 'ANSWER'}
         </Text>
         <Animated.Text style={[
-          deckStyles.cardTitle
-          , {
-          transform: [{
-            scale: bounceValue
-          }]
-        }]}>
+          deckStyles.cardTitle,
+          {
+            transform: [{
+              scale: bounceValue
+            }]
+          }
+        ]}>
           {front ? card.question : card.answer}
         </Animated.Text>
       </TouchableOpacity>
