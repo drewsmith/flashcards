@@ -1,7 +1,13 @@
 Flashcards
 ===
 
-A React Native app for creating flashcards and quizzes.
+A React Native app for creating flashcards and quizzes. This app gives you the ability to:
+
+* Create a deck of flashcards
+ * Create multiple flashcards within a deck
+ * Take a quiz for each deck of flashcards
+
+The app should work in both Android and iOS.
 
 ## Install
 
