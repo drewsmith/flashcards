@@ -13,15 +13,15 @@ yarn start
 
 Follow the instructions to test on your emulator of choice
 
-iOS
+## iOS
 
 ![](flashcards_ios.png)
 
-Android
+## Android
 
 ![](flashcards_android.png)
 
-Building
+## Building
 
 ```
 exp build:android
