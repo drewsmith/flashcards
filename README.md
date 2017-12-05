@@ -6,7 +6,7 @@ A React Native app for creating flashcards and quizzes.
 ## Install
 
 ```
-https://github.com/drewsmith/flashcards
+git clone git@github.com:drewsmith/flashcards.git
 yarn install
 yarn start
 ```
