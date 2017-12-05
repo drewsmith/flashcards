@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-import { deckStyles, ContainerView } from './common'
+import { deckStyles, ContainerView, ErrorView } from './common'
 import { lightGray, white, red900, lightGreen700, lightBlue800, blueGray900 } from '../utils/colors'
 
 import { setNotification, clearNotifications } from '../utils/notifications'
@@ -105,14 +105,21 @@ class QuizView extends Component {
 
     return (
       <ContainerView>
-        {complete === false ? (
+        {cardTotal === 0 && (
+          <View>
+            <ErrorView text='Please add a question to begin the quiz.' />
+            <Button text='VIEW DECK' buttonStyle={styles.viewDeckButton} onPress={goBack} />
+          </View>
+        )}
+        {cardTotal > 0 && complete === false && (
           <View>
             <Text style={styles.counts}>{`${cardNumber} of ${cardTotal}`}</Text>
             <CardView card={cards[currentCardIndex]} />
             <Button text='CORRECT' buttonStyle={styles.correctButton} onPress={this.handleCorrect} />
             <Button text='INCORRECT' buttonStyle={styles.incorrectButton} onPress={this.handleIncorrect} />
           </View>
-        ) : (
+        )}
+        {cardTotal > 0 && complete === true && (
           <View>
             <Text style={styles.counts}>Total Correct: {`${numberCorrect} of ${cardTotal}`}</Text>
             <Button text='RETRY QUIZ' buttonStyle={styles.retryButton} onPress={this.reset} />

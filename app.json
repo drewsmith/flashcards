@@ -1,5 +1,20 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0"
-  }
+    "sdkVersion": "23.0.0",
+    "orientation": "portrait",
+    "name": "Flashcards",
+    "description": "Flashcard and quiz app.",
+    "slug": "drewsmith-flashcards",
+    "version": "1.0",
+    "icon": "bolt.png",
+    "notification": {
+      "icon": "bolt.png"
+    },
+    "ios": {
+     "bundleIdentifier": "org.drew.flashcards",
+    },
+    "android": {
+     "package": "org.drew.flashcards",
+    }
+  },
 }
