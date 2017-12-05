@@ -5,7 +5,7 @@ import { lightBlue800, gray, lighterGray, white, blueGray900 } from '../utils/co
 import { NavigationActions } from 'react-navigation'
 
 import { connect } from 'react-redux'
-import * as actions from '../actions'
+import { addDeck } from '../actions'
 import { bindActionCreators } from 'redux'
 
 import uuid from 'uuid'
@@ -29,18 +29,19 @@ class AddDeck extends Component {
     return title && title.length > 0
   }
   handleAdd = () => {
-    let { addDeck, viewDeckList } = this.props
+    let { addDeck, viewDeck } = this.props
     if(!this.valid()) {
       this.setState({error: true})
       return
     }
-    addDeck({
+    let deck = {
       id: uuid.v1(),
       title: this.state.title,
       cards: []
-    })
+    }
+    addDeck(deck)
     .then(() => this.setState({error: false}))
-    .then(viewDeckList)
+    .then(() => viewDeck(deck))
   }
   render() {
     let { title, error } = this.state
@@ -63,7 +64,9 @@ class AddDeck extends Component {
 
 export default connect(
   (state, {navigation}) => ({
-    viewDeckList: () => navigation.navigate('DeckList')
+    viewDeck: (deck) => {
+      navigation.navigate('DeckView', { deckId: deck.id, title: deck.title })
+    }
   }),
-  (dispatch) => bindActionCreators(actions, dispatch)
+  { addDeck }
 )(AddDeck)

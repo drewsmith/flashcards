@@ -6,8 +6,7 @@ import { blueGray900, lightBlue200 } from '../utils/colors'
 import { FontAwesome } from '@expo/vector-icons'
 
 import { connect } from 'react-redux'
-import * as actions from '../actions'
-import { bindActionCreators } from 'redux'
+import { fetchDecks } from '../actions'
 
 const styles = StyleSheet.create({
   notFound: {
@@ -45,7 +44,7 @@ class DeckList extends Component {
     fetchDecks()
   }
   render() {
-    let { decks, navigation, viewAddDeck, viewDeck } = this.props
+    let { decks, viewAddDeck, viewDeck } = this.props
     return (
       <ContainerView>
         {!decks || decks.length === 0
@@ -78,5 +77,5 @@ export default connect(
       navigation.navigate('DeckView', { deckId: deck.id, title: deck.title })
     }
   }),
-  (dispatch) => bindActionCreators(actions, dispatch)
+  { fetchDecks }
 )(DeckList)
